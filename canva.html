@@ -45,15 +45,7 @@
                 }
                 
                 afficher(){
-                    // Tracer un cercle
-                    ctx1.beginPath();
-                    ctx1.lineWidth = 1;
-                    ctx1.arc(this.x, this.y, this.r, 0, 2 * Math.PI, false);
-                    ctx1.fillStyle = color; // Remplissage
-                    ctx1.fill(); // Tracer le remplissage
-                    ctx1.strokeStyle = color; // Contour
-                    ctx1.stroke(); // Tracer le contour
-                    ctx1.closePath();
+                    drawCircle(this.x, this.y, this.r, this.color)
                 }
             }
 }//############################## POO ############################## 
@@ -92,7 +84,7 @@
                     // Tracer un cercle
                     ctx1.beginPath();
                     ctx1.lineWidth = 1;
-                    ctx1.arc(this.x, this.y, this.r, 0, 2 * Math.PI, false);
+                    ctx1.arc(x, y, r, 0, 2 * Math.PI, false);
                     ctx1.fillStyle = color; // Remplissage
                     ctx1.fill(); // Tracer le remplissage
                     ctx1.strokeStyle = color; // Contour
@@ -130,30 +122,6 @@
                 return cercle;
             }
 }//############################## Fin Init ##############################
-{//############################## Show ##############################
-
-            function Raquette_Afficher(uneRaquette) {
-                // Tracer le brique
-                drawRectangle(
-                    uneRaquette.x1,
-                    uneRaquette.y1,
-                    uneRaquette.x2,
-                    uneRaquette.y2,
-                    uneRaquette.color
-                );
-            }
-            function Cercle_Afficher(unCercle) {
-                // Tracer le cercle
-
-                drawCircle(unCercle.px, unCercle.py, unCercle.rayon, unCercle.color);
-
-            }
-            function Raquette_MettreAJour(uneRaquette) {
-                // Tracer le brique
-                if (leftOn) laRaquette.x1 -= 5;
-                if (rightOn) laRaquette.x1 += 5;
-            }
-}//############################## Init ##############################
 {//############################## Page ##############################
     
             function consoleDebug(txt){
@@ -172,7 +140,7 @@
                 laRaquette = Raquette_Init();
     
                 CANVAS_1.addEventListener("mousedown", function (event) {
-                    CANVAS1_OnMouseMove(event);
+                    CANVAS1_OnMouseDown(event);
                 });
     
                 console.log(tailleX + " " + tailleY);
@@ -181,27 +149,31 @@
             var cpt = 0;
             function iterer() {
                 // Gérer une frame - Appelé 50 fois par seconde
-                Raquette_MettreAJour(laRaquette);
                 consoleDebug(phase);
             }
 }//############################## FIN Page ##############################
 {//############################## CANVA ACTION ##############################
 
-            function CANVAS1_OnMouseMove(e) {
+            function CANVAS1_OnMouseDown(e) {
                 var x = e.offsetX;
                 var y = e.offsetY;
                 
                 var code = e.keyCode;
                 if (phase=='RECTANGLE_1'){
-                    drawRectangle(laRaquette.x1 = x - 15, laRaquette.y1 = y - 5, laRaquette.x2 = laRaquette.x1 + 30,  laRaquette.y2 = laRaquette.y1 + 10);
+                    var rectangle = new Rectangle();
+                    rectangle.x1 = x - 15 ;
+                    rectangle.y1 = y - 5  ;
+                    rectangle.x2 = rectangle.x1 + 30 ;
+                    rectangle.y2 = rectangle.y1 + 10 
+                    rectangle.afficher();
                 }
                 if(phase=='CERCLE_1'){
                     var Cercle = new Circle();
-                    Cercle.x = laRaquette.x1=x;
-                    Cercle.y = laRaquette.y1=y;
+                    Cercle.x = x ;
+                    Cercle.y = y ;
                     Cercle.r = 20;
                     Cercle.color = "blue";
-                    drawCircle(laRaquette.x1=x, laRaquette.y1=y, 20, "blue");
+                    Cercle.afficher();
                 }
                 if(phase=='SEGMENT_0'){
                     phase='SEGMENT_1';
@@ -243,8 +215,6 @@
                     Ligne.y2 = posy1;
                     Ligne.color = "red"
                     Ligne.afficher()
-                    
-                    
                 }
                 else if (phase=='TRIANGLE_2'){
                     var lastmousex = e.offsetX;
