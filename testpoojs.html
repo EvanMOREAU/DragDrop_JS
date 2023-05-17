@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Cours JavaScript</title>
+    <meta charset="utf-8">
+    <meta name="viewport"
+      content="width=device-width, initial-scale=1, user-scalable=no">
+
+  </head>
+
+  <body>
+    <hr>
+    <script>
+        window.addEventListener('load',horloge);
+        function horloge(){
+          let d = new Date();
+          document.getElementById('heure').innerHTML = d.toLocaleTimeString();
+          setTimeout(horloge, 1000);
+      }
+      
+        document.addEventListener('DOMContentLoaded', function(){
+          let cache = document.getElementById('bouton');
+          cache.addEventListener('click',cacheHorloge);
+          document.getElementById('tog').style.display = 'block';
+          function cacheHorloge(){
+            let para = document.getElementById('tog');
+            if(para.style.display == 'block'){
+              para.style.display = 'none';
+            }else{
+              para.style.display = 'block';
+            }
+          }
+        });
+    </script>
+        <h1>Test POO JS - 1</h1>
+        <p id='tog'>Il est actuellement <span id='heure'></span></p>
+        <button id='bouton'>Cacher / Afficher l'heure</button>
+        <h4> Donne l'heure actuelle. Il est possible d'enlever, ou de mettre la ligne en cliquant sur Cacher / Afficher l'heure.</h4>
+    <hr>
+        <h1>Test POO JS - 2</h1>
+        <button onclick="alert('Bonjour !')">Cliquez moi</button>
+        
+        <button onclick="(function(){
+            let para = document.createElement('p');
+            para.textContent = 'NDLP Avranches - Cette ligne vient d\'être rajoutée. L\'avez vous vu ?';
+            document.body.appendChild(para);
+        })();">
+            Ajouter un paragraphe
+        </button>
+        <h4> Permet d'obtenir une Alter Box avec un message défini dans le code. - "Cliquez moi"</h4>
+        <h4> Permet d'ajouter un Paragraphe en bas de page. - "Ajouter un paragraphe"</h4>
+
+    <hr>
+        <h1>Test POO JS - 3</h1>
+        <p>Un paragraphe</p>
+        <p id='p1'></p>
+        <p id='p2'></p>
+        <p id='p3'></p>
+        <h4> Permet d'obtenir le type d'une variable. elles sont définies dans le code à la ligne 66,67,68. Changez les pour voir le type.</h4>
+
+        <script>
+            let prenom = "Je m'appelle Pierre";
+            let age = 29;
+            let age2 = '29';
+
+            document.getElementById('p1').innerHTML = 'Type de prenom : ' + typeof prenom;
+            document.getElementById('p2').innerHTML = 'Type de age : ' + typeof age;
+            document.getElementById('p3').innerHTML = 'Type de age2 : ' + typeof age2;
+        </script>
+    <hr>
+    <h1>Test POO JS - 4</h1>
+    <p>Un paragraphe</p>
+        <p id='p4'></p>
+        <h4> Ici nous créons un objet 'ligne' avec un nom et une longeur. Ces derniers se réaffichent sur la page.
+            ajoutez : let test3 = new Ligne('test3', 56);  et let test4 = new Ligne('test4', 2922); entre la ligne 90 et 91, 
+            et rajoutez test3.taille(); test4.taille(); après la ligne 94.</h4>
+    <hr>
+    <script>
+        
+        class Ligne{
+            /*Nous n'avons pas besoin de préciser "function" devant notre constructeur
+            *et nos autres méthodes classe*/
+            constructor(nom, longueur){
+                this.nom = nom;
+                this.longueur = longueur;
+            }
+            
+            taille(){document.getElementById('p4').innerHTML +=
+                'Longueur de  ' + this.nom + ' : ' + this.longueur + '<br>'};
+        }
+
+        let test1 = new Ligne('test1', 10);
+        let test2 = new Ligne('test2', 5);
+        test1.taille();
+        test2.taille();
+ 
+
+
+        // Définition de la classe Task pour créer une tâche avec un nom et une description
+        class Task {
+        constructor(name, description) {
+            this.name = name;
+            this.description = description;
+            this.completed = false;
+        }
+
+        // Méthode pour marquer une tâche comme complétée
+        complete() {
+            this.completed = true;
+        }
+        }
+
+        // Définition de la classe TaskList pour créer et gérer une liste de tâches
+        class TaskList {
+        constructor() {
+            this.tasks = [];
+        }
+
+        // Méthode pour ajouter une tâche à la liste
+        addTask(task) {
+            this.tasks.push(task);
+        }
+
+        // Méthode pour marquer toutes les tâches de la liste comme complétées
+        completeAllTasks() {
+            this.tasks.forEach(task => {
+            task.complete();
+            });
+        }
+
+        // Méthode pour obtenir le nombre de tâches de la liste qui sont complétées
+        getCompletedTaskCount() {
+            return this.tasks.filter(task => task.completed).length;
+        }
+        }
+
+        // Exemple d'utilisation des classes Task et TaskList
+        const task1 = new Task('Acheter du lait', 'Aller à la supérette pour acheter du lait');
+        const task2 = new Task('Faire la lessive', 'Laver les vêtements sales');
+        const task3 = new Task('Faire les courses', 'Acheter des fruits, des légumes et de la viande');
+
+        const taskList = new TaskList();
+        taskList.addTask(task1);
+        taskList.addTask(task2);
+        taskList.addTask(task3);
+
+        taskList.completeAllTasks();
+
+        console.log(`Nombre de tâches complétées : ${taskList.getCompletedTaskCount()}`);
+
+    </script>
+
+
+
+
+  </body>
+</html>

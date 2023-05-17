@@ -1,0 +1,16 @@
+EDIT SCHEMA
+===============
+1. poser des boouttons : select, carre, rond
+2. gerer les phases selections, poser_carre, poser_rond... y reflechir
+3. creer les objets carre et rond
+4. aficher les objet carre et rond 
+
+5. creer une zone de texte pour le debogage et afficher la phase dedans...
+6. memoriser les objets créés dans des tableaux
+7. réafficher le schema grace au contenu des tableaux.
+8. reafficher le schema sur un timer simplifie les tracés (pas de reflexion)
+
+9. doc js
+https://www.pierre-giraud.com/javascript-apprendre-coder-cours/classe/
+https://developer.mozilla.org/fr/docs/Web/JavaScript/Reference/Classes
+10. Recoder le prgramme avec des classes et des objets
