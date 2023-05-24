@@ -1,0 +1,235 @@
+<HTML>
+    <head>
+        <title>Canvas</title>
+    
+        <script>
+            // Variables globales
+            var CANVAS_1 = null; // Objet de l'interface
+            var ctx1 = null;
+            var phase = 'SELECT_0';
+            var cercles = [];
+            var rectangles = [];
+            var segments = [];
+    
+            function drawClear(color) {
+                // Effacer le canvas
+                ctx1.beginPath();
+                ctx1.fillStyle = color;
+                ctx1.fillRect(0, 0, ctx1.canvas.width, ctx1.canvas.height);
+                ctx1.closePath();
+            }
+    
+            function drawLine(x1, y1, x2, y2, color) {
+                // Tracer un segment
+                ctx1.beginPath();
+                ctx1.lineWidth = 1;
+                ctx1.strokeStyle = color;
+                ctx1.moveTo(x1, y1);
+                ctx1.lineTo(x2, y2);
+                ctx1.stroke(); // Dessiner
+                ctx1.closePath();
+            }
+    
+            function drawCircle(x, y, r, color) {
+                // Tracer un cercle
+                ctx1.beginPath();
+                ctx1.lineWidth = 1;
+                ctx1.arc(x, y, r, 0, 2 * Math.PI, false);
+                ctx1.fillStyle = color; // Remplissage
+                ctx1.fill(); // Tracer le remplissage
+                ctx1.strokeStyle = color; // Contour
+                ctx1.stroke(); // Tracer le contour
+                ctx1.closePath();
+            }
+    
+            function drawRectangle(x1, y1, x2, y2, color) {
+                ctx1.beginPath();
+                ctx1.lineWidth = 1;
+                ctx1.rect(x1, y1, x2 - x1, y2 - y1);
+                ctx1.fillStyle = color; // Remplissage
+                ctx1.fill(); // Tracer le remplissage
+                ctx1.strokeStyle = color; // Contour
+                ctx1.stroke(); // Tracer le contour
+                ctx1.closePath();
+            }
+            function verif() {
+                var lastmousex = e.offsetX;
+                var lastmousey = e.offsetY;
+    
+            }
+            class Cercle {
+                constructor(x, y, r, color) {
+                    this.x = x;
+                    this.y = y;
+                    this.r = r;
+                    this.color = color;
+                }
+                tracer() {
+                    drawCircle(this.x, this.y, this.r, this.color);
+                }
+            }
+            class Rectangle {
+                constructor(x1, y1, x2, y2, color) {
+                    this.x = x1;
+                    this.y = y1;
+                    this.x1 = x2;
+                    this.y1 = y2;
+                    this.color = color;
+                }
+                tracer() {
+                    drawRectangle(this.x, this.y, this.x1, this.y1, this.color);
+                }
+            }
+            class Segment {
+                constructor(x, y, x1, y1, color) {
+                    this.x = x;
+                    this.y = y;
+                    this.x1 = x1;
+                    this.y1 = y1;
+                    this.color = color;
+                }
+                tracer() {
+                    drawLine(this.x, this.y, this.x1, this.y1, this.color);
+                }
+            }
+    
+            var tailleX, tailleY;
+            var br1;
+    
+            function Cercle_Init() {
+                // Créer et initialiser une nouvelle bille
+                var cercle = new Object(); // Allouer un nouvel objet en RAM
+                cercle.px = x;
+                cercle.py = y;
+    
+                cercle.rayon = 4;
+    
+                return cercle;
+            }
+    
+            function consoleDebug(txt) {
+                txtDebug.value = txt;
+    
+            }
+    
+            function BODY_OnLoad() {
+                // Initialisation du programme
+                CANVAS_1 = document.getElementById("CANVAS_1");
+                txtDebug = document.getElementById("txtDebug");
+                ctx1 = CANVAS_1.getContext("2d");
+    
+                tailleX = CANVAS_1.width;
+                tailleY = CANVAS_1.height;
+    
+                CANVAS_1.addEventListener("mousedown", function (event) {
+                    CANVAS1_OnMouseDown(event);
+                });
+    
+                console.log(tailleX + " " + tailleY);
+                setInterval(iterer, 20); // Timer frames en ms
+            }
+    
+            var cpt = 0;
+    
+            function iterer() {
+                // Gérer une frame - Appelé 50 fois par seconde
+                consoleDebug(phase);
+    
+            }
+    
+            function CANVAS1_OnMouseDown(e) {
+                var x = e.offsetX;
+                var y = e.offsetY;
+    
+                var code = e.keyCode;
+                if (phase == 'RECTANGLE_1') {
+                    var rectangle = new Rectangle(x + 15, y - 5, x - 15, y + 5, 'cyan');
+                    rectangle.tracer();
+                    rectangles.push(rectangle);
+                }
+                if (phase == 'CERCLE_1') {
+                    var cercle = new Cercle(x, y, 10, 'blue');
+                    cercle.tracer();
+                    cercles.push(cercle);
+                }
+                if (phase == 'SEGMENT_0') {
+                    phase = 'SEGMENT_1';
+                    var lastmousex = e.offsetX;
+                    var lastmousey = e.offsetY;
+                    posx = lastmousex;
+                    posy = lastmousey;
+                }
+                else if (phase == 'SEGMENT_1') {
+                    var lastmousex = e.offsetX;
+                    var lastmousey = e.offsetY;
+                    var segment = new Segment(posx, posy, lastmousex, lastmousey, 'red');
+                    segment.tracer();
+                    segments.push(segment);
+                    phase = 'SEGMENT_0'
+                }
+                if (phase == 'TRIANGLE_0') {
+                    phase = 'TRIANGLE_1';
+                    var lastmousex = e.offsetX;
+                    var lastmousey = e.offsetY;
+                    posx = lastmousex;
+                    posy = lastmousey;
+                }
+                else if (phase == 'TRIANGLE_1') {
+                    phase = 'TRIANGLE_2'
+                    var lastmousex = e.offsetX;
+                    var lastmousey = e.offsetY;
+                    posx1 = lastmousex;
+                    posy1 = lastmousey;
+                    var segment = new Segment(posx, posy, posx1, posy1, 'purple');
+                    segment.tracer();
+                }
+                else if (phase == 'TRIANGLE_2') {
+                    var lastmousex = e.offsetX;
+                    var lastmousey = e.offsetY;
+                    var segment = new Segment(posx1, posy1, lastmousex, lastmousey, 'yellow');
+                    segment.tracer();
+                    var segment = new Segment(posx, posy, lastmousex, lastmousey, 'green');
+                    segment.tracer();
+                    phase = 'TRIANGLE_0';
+                }
+                if (phase == 'SELECT_0') {
+                }
+                console.log(phase);
+            }
+    
+            function CANVAS1_OnMouseLeftClick(e) {
+    
+                var x = e.offsetX;
+                var y = e.offsetY;
+            }
+            var leftOn = false;
+            var rightOn = false;
+            var upOn = false;
+    
+    
+        </script>
+    </head>
+    
+    <body style="background-color:white;" OnLoad="BODY_OnLoad()">
+    
+        <center>
+            <h1 style="color:black;">JavaScript - Editeur de MCD</h1>
+    
+            <hr />
+            <input type="text" id="txtDebug" value="" style="color : red;">
+            <br /><br />
+            <button onclick="phase='SELECT_0'">Select</button>
+            <button onclick="phase='RECTANGLE_1'">Rectangle</button>
+            <button onclick="phase='CERCLE_1'">Cercle</button>
+            <button onclick="phase='TRIANGLE_0'">Triangle</button>
+            <button onclick="phase='SEGMENT_0'">Segment</button>
+    
+            <div>
+                <!-- some stuff -->
+                <canvas id="CANVAS_1" width="455px" height="300px" style="border: solid 1px gray">
+                </canvas>
+    
+            </div>
+        </center>
+    </body>
+    </HTML>
